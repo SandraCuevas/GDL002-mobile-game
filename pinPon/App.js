@@ -8,8 +8,10 @@ import {
     Animated,
     Image,
     ImageBackground,
-
  } from 'react-native';
+
+import Enemy from './app/components/Enemy';
+
 
 export default class App extends Component {
 
@@ -19,6 +21,13 @@ export default class App extends Component {
       movePlayerVal: new Animated.Value(40),
       playerSide: 'left',
       points: 0,
+
+      moveEnemyval: new Animated.Value(0),
+      enemyStartposX: 0,
+      enemySide: 'left',
+      enemySpeed: 4200,
+
+      gameOver: false,
 
     };
   }
@@ -48,6 +57,10 @@ export default class App extends Component {
                   { translateX: this.state.movePlayerVal },
                 ],
           }}></Animated.Image>
+
+          <Enemy enemyImg={require('./app/img/matamoscas.png')} 
+          enemyStartposX={this.state.enemyStartposX}
+          moveEnemyval={this.state.moveEnemyval}/>
           
           <View style= {styles.controls}>
               <Text style={styles.left} onPress={ () => this.movePlayer('left')}>{'<'}</Text>
@@ -86,6 +99,35 @@ export default class App extends Component {
         }
         ).start();
     }
+  }
+  componentDidMount(){
+    this.animateEnemy();
+  }
+  animateEnemy(){
+    this.state.moveEnemyval.setValue(-100);
+    var windhowH = Dimensions.get('window').height;
+
+    //generate  left distance for enemy
+
+    var r = Math.floor(Math.random()* 2) + 1;
+
+    if (r == 2) {
+        r = 40;
+        this.setState({ enemySide: 'left'   });
+    }
+    else {
+      r = Dimensions.get('window').width -140;
+      //enemy is on the right
+      this.setState({ enemySide: 'right'});
+    }
+    this.setState({ enemyStartposX: r});
+
+    var refreshIntervalId;
+    refreshIntervalId= setInterval (()=> {
+
+      //collision logic
+
+    }, 50);
   }
 }
 
