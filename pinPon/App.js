@@ -105,7 +105,7 @@ export default class App extends Component {
   }
   animateEnemy(){
     this.state.moveEnemyval.setValue(-100);
-    var windhowH = Dimensions.get('window').height;
+    var windowH = Dimensions.get('window').height;
 
     //generate  left distance for enemy
 
@@ -121,13 +121,50 @@ export default class App extends Component {
       this.setState({ enemySide: 'right'});
     }
     this.setState({ enemyStartposX: r});
+    //interval to check for collision each 50 ms
 
     var refreshIntervalId;
     refreshIntervalId= setInterval (()=> {
 
       //collision logic
 
+      // if the enemy collides with player and they are on the same side
+      // -- and the enemy has not passed the play safely
+      if (this.state.moveEnemyval._value > windowH - 280
+        && this.state.moveEnemyval._value < windowH - 180
+        && this.state.playerSide == this.state.enemySide) {
+          
+            clearInterval(refreshIntervalId)
+            this.setState({gameOver:true});
+            this.gameOver();
+        }
+
     }, 50);
+    //increase enemy speed each 20th second
+    setInterval (()=>{
+      this.setState({ enemySpeed: this.state.enemySpeed -50})
+
+    }, 20000);
+    //animate the enemy
+    Animated.timing(
+      this.state.moveEnemyval,
+      {
+        toValue: Dimensions.get('window').height,
+        duration: this.state.enemySpeed,
+
+      }
+
+    ).start(event => {
+      //if not collision is detected, restart the enemy animation
+      if(event.finished && this.state.gameOver == false) {
+        clearInterval(refreshIntervalId);
+        this.setState({ points: ++ this.state.points });
+        this.animateEnemy();
+      }
+    });
+  }
+  gameOver (){
+    alert('You lost bigtime!')
   }
 }
 
