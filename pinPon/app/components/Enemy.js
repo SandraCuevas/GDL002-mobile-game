@@ -17,7 +17,7 @@ import {
              <Animated.Image source={this.props.enemyImg}
                 style={{
                     height: 300,
-                    width: 150,
+                    width: 170,
                     position: 'absolute',
                     resizeMode: 'stretch',
                     left: this.props.enemyStartposX,
