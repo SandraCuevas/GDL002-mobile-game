@@ -1,38 +1,24 @@
-import { Navigation } from 'react-native';
-import React, { Component } from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    Animated,
-    Image,
-    ImageBackground,
-    Button,
- } from 'react-native';
+import React from "react";
+import {createStackNavigator, createAppContainer} from "react-navigation";
+import Home from "./app/components/Welcome";
+import Game from "./app/components/FatherFly";
 
 
-import FatherFly from './app/components/FatherFly';
-
-
-export default class App extends Component {
-  render () {
-      return (
-        <View style={styles.container}>
-        <FatherFly/>
-         
-        </View>
-      );
-    }
+export default class App extends React.Component{
+  render(){
+    return(
+      <AppContainer/>
+    );
   }
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      position: 'relative',
-      resizeMode: 'cover',
-      justifyContent: 'center',
-    }
+}
+
+const AppStackNavigation = createStackNavigator ({
+  Home: {
+    screen: Home
+  },
+  Game: {
+    screen: Game
+  }
 });
 
-AppRegistry.registerComponent('App', () => App);
+const AppContainer = createAppContainer(AppStackNavigation);

@@ -1,31 +1,24 @@
 import React, { Component } from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    Animated,
-    Image,
-    ImageBackground,
+import {View,  StyleSheet, Button, } from "react-native";
 
- } from 'react-native';
+class Home extends Component{
+    render(){
+        return (
+            <View style={styles.container}>
+                <Button title="Play" onPress={() => this.props.navigation.navigate("Game")}/>
+            </View>
+            
 
- export default class Welcome extends Component {
-     render () {
-         return (
-             <View style={styles.container}>
-                 <Text>Don't let fly die</Text>
-             </View>
-         )
-     }
- }
+        );
+    }
+}
+ export default Home;
 
  const styles = StyleSheet.create({
     container: {
       flex: 1,
-      position: 'relative',
-      resizeMode: 'cover',
-      justifyContent: 'center',
+      backgroundColor: "#fff",
+      alignItems: "center",
+      justifyContent: "center"
     }
 });

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
     Dimensions,
     Animated,
-    Image,
     ImageBackground,
  } from 'react-native';
 
 import Enemy from './Enemy';
 
 export default class FatherFly extends Component {
-
+static navigationOptions = {
+  title: 'Game',
+};
   constructor (props){
     super(props);
     this.state = {
@@ -182,8 +182,6 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       alignItems: 'center',
       justifyContent: 'center',
-      paddingBootom:'10px',
-      
     },
   
     controls: {
@@ -208,3 +206,4 @@ const styles = StyleSheet.create({
     }
 
 });
+
