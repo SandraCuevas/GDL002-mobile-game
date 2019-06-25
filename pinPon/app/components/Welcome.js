@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import {View,  StyleSheet, Button, } from "react-native";
+import {View,  StyleSheet, Button, ImageBackground } from "react-native";
 
 class Home extends Component{
     render(){
         return (
-            <View style={styles.container}>
+            <ImageBackground source = {require ('../img/bgImage.gif')} style = {styles.container}>
+            <View>
                 <Button title="Play" onPress={() => this.props.navigation.navigate("Game")}/>
             </View>
             
-
+            </ImageBackground>
         );
     }
 }

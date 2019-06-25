@@ -6,6 +6,7 @@ import {
     Dimensions,
     Animated,
     ImageBackground,
+    Alert,
  } from 'react-native';
 
 import Enemy from './Enemy';
@@ -29,11 +30,15 @@ static navigationOptions = {
       gameOver: false,
 
     };
+    this.movePlayer = this.movePlayer.bind(this);
+    this.gameOver = this.gameOver.bind(this);
+    this.animateEnemy = this.animateEnemy.bind(this);
   }
 
   render () {
     return (
-      <ImageBackground source = {require ('../img/bgImage.jpg')} style = {styles.container}>
+      <ImageBackground source = {require ('../img/bgMantel.png')} style = {styles.container}>
+      <ImageBackground source = {require ('../img/bgMantel.gif')} style = {styles.container}>
 
       <View style = {{ flex:1, alignItems: 'center', marginTop: 60}}>
             <View style = {styles.points}>
@@ -66,7 +71,8 @@ static navigationOptions = {
               <Text style={styles.right} onPress={ () => this.movePlayer('right')}>{'>'}</Text>
           
           </View>
-
+    
+      </ImageBackground>
       </ImageBackground>
     );
   }
@@ -102,6 +108,22 @@ static navigationOptions = {
   componentDidMount(){
     this.animateEnemy();
   }
+
+  componentWillUnmount(){
+    this.animateEnemy();
+  }
+  
+
+  gameOver (router){
+    Alert.alert(
+      'Game Over',
+      'Go BACK to try Again',
+      [
+        {text: 'try again', onPress: () => {() => router.navigate("Home")}},
+        {text: 'Out', onPress: () => {() => router.navigate("Home")}},
+      ]
+    )    
+  }
   animateEnemy(){
     this.state.moveEnemyval.setValue(-100);
     var windowH = Dimensions.get('window').height;
@@ -135,15 +157,15 @@ static navigationOptions = {
           
             clearInterval(refreshIntervalId)
             this.setState({gameOver:true});
-            this.gameOver();
+            this.gameOver(this.props.navigation);
         }
 
     }, 50);
     //increase enemy speed each 4th second
     setInterval (()=>{
-      this.setState({ enemySpeed: this.state.enemySpeed -100})
+      this.setState({ enemySpeed: this.state.enemySpeed -50})
 
-    }, 4000);
+    }, 2000);
     //animate the enemy
     Animated.timing(
       this.state.moveEnemyval,
@@ -162,9 +184,7 @@ static navigationOptions = {
       }
     });
   }
-  gameOver (){
-    alert('You lost bigtime!')    
-  }
+  
 }
 
 const styles = StyleSheet.create({

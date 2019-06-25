@@ -14,10 +14,16 @@ export default class App extends React.Component{
 
 const AppStackNavigation = createStackNavigator ({
   Home: {
-    screen: Home
+    screen: Home,
+    navigationOptions: {
+      header: null,
+  },
   },
   Game: {
-    screen: Game
+    screen: Game,
+       navigationOptions: {
+      
+  },
   }
 });
 
