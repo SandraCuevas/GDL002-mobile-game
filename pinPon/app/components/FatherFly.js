@@ -10,6 +10,7 @@ import {
  } from 'react-native';
 
 import Enemy from './Enemy';
+import Enemy2 from './Enemy2';
 
 export default class FatherFly extends Component {
 static navigationOptions = {
@@ -18,14 +19,22 @@ static navigationOptions = {
   constructor (props){
     super(props);
     this.state = {
-      movePlayerVal: new Animated.Value(40),
+      movePlayerVal: new Animated.Value(-100),
       playerSide: 'left',
       points: 0,
 
       moveEnemyval: new Animated.Value(0),
-      enemyStartposX: 0,
+      enemyStartposX: -100,
       enemySide: 'left',
-      enemySpeed: 4200,
+      enemySpeed: 5000,
+
+      playerSide2: 'left',
+      moveEnemyval2: new Animated.Value(0),
+      enemyStartposX2: -200,
+      enemySide2: 'left',
+      enemySpeed2: 20000,
+
+
 
       gameOver: false,
 
@@ -51,8 +60,8 @@ static navigationOptions = {
 
           <Animated.Image source={require('../img/Fly.gif')} 
               style={{
-                height: 70,
-                width: 70,
+                height: 80,
+                width: 80,
                 position: 'absolute',
                 zIndex: 1,
                 bottom: 10,
@@ -65,10 +74,14 @@ static navigationOptions = {
           <Enemy enemyImg={require('../img/matamoscas.gif')} 
           enemyStartposX={this.state.enemyStartposX}
           moveEnemyval={this.state.moveEnemyval}/>
+
+          <Enemy2 enemyImg={require('../img/raid.png')} 
+          enemyStartposX={this.state.enemyStartposX2}
+          moveEnemyval={this.state.moveEnemyval2}/>
           
           <View style= {styles.controls}>
-              <Text style={styles.left} onPress={ () => this.movePlayer('left')}>{'<'}</Text>
-              <Text style={styles.right} onPress={ () => this.movePlayer('right')}>{'>'}</Text>
+              <Text style={styles.left} onPress={ () => this.movePlayer('left')}>{'⬅'}</Text>
+              <Text style={styles.right} onPress={ () => this.movePlayer('right')}>{'➡'}</Text>
           
           </View>
     
@@ -107,10 +120,12 @@ static navigationOptions = {
   }
   componentDidMount(){
     this.animateEnemy();
+    this.animateEnemy2();
   }
 
   componentWillUnmount(){
     this.animateEnemy();
+    this.animateEnemy2();
   }
   
 
@@ -125,12 +140,12 @@ static navigationOptions = {
     )    
   }
   animateEnemy(){
-    this.state.moveEnemyval.setValue(-100);
-    var windowH = Dimensions.get('window').height;
+    this.state.moveEnemyval.setValue(-300);
+    let windowH = Dimensions.get('window').height;
 
     //generate  left distance for enemy
 
-    var r = Math.floor(Math.random()* 2) + 1;
+    let r = Math.floor(Math.random()* 2) + 1;
 
     if (r == 2) {
         r = 40;
@@ -144,8 +159,8 @@ static navigationOptions = {
     this.setState({ enemyStartposX: r});
     //interval to check for collision each 50 ms
 
-    var refreshIntervalId;
-    refreshIntervalId= setInterval (()=> {
+      let refreshIntervalId;
+    refreshIntervalId= setInterval (() => {
 
       //collision logic
 
@@ -155,6 +170,7 @@ static navigationOptions = {
         && this.state.moveEnemyval._value < windowH - 180
         && this.state.playerSide == this.state.enemySide) {
           
+
             clearInterval(refreshIntervalId)
             this.setState({gameOver:true});
             this.gameOver(this.props.navigation);
@@ -163,9 +179,9 @@ static navigationOptions = {
     }, 50);
     //increase enemy speed each 4th second
     setInterval (()=>{
-      this.setState({ enemySpeed: this.state.enemySpeed -50})
+      this.setState({ enemySpeed: this.state.enemySpeed - 50})
 
-    }, 2000);
+    }, 20000);
     //animate the enemy
     Animated.timing(
       this.state.moveEnemyval,
@@ -181,6 +197,67 @@ static navigationOptions = {
         clearInterval(refreshIntervalId);
         this.setState({ points: ++ this.state.points });
         this.animateEnemy();
+      }
+    });
+  }
+  animateEnemy2(){
+    this.state.moveEnemyval2.setValue(-400);
+    let windowH = Dimensions.get('window').height;
+
+    //generate  left distance for enemy
+
+    let r = Math.floor(Math.random()* 1) + 1;
+
+    if (r == 2) {
+        r = 80;
+        this.setState({ enemySide2: 'left'   });
+    }
+    else {
+      r = Dimensions.get('window').width -140;
+      //enemy is on the right
+      this.setState({ enemySide2: 'right'});
+    }
+    this.setState({ enemyStartposX2: r});
+    //interval to check for collision each 50 ms
+
+      let refreshIntervalId;
+    refreshIntervalId= setInterval (() => {
+
+      //collision logic
+
+      // if the enemy collides with player and they are on the same side
+      // -- and the enemy has not passed the play safely
+      if (this.state.moveEnemyval2._value > windowH - 280
+        && this.state.moveEnemyval2._value < windowH - 180
+        && this.state.playerSide2 == this.state.enemySide2) {
+          
+
+            clearInterval(refreshIntervalId)
+            this.setState({gameOver:true});
+            this.gameOver(this.props.navigation);
+        }
+
+    }, 50);
+    //increase enemy speed each 4th second
+    setInterval (()=>{
+      this.setState({ enemySpeed2: this.state.enemySpeed2 - 50})
+
+    }, 20000);
+    //animate the enemy
+    Animated.timing(
+      this.state.moveEnemyval2,
+      {
+        toValue: Dimensions.get('window').height,
+        duration: this.state.enemySpeed2,
+
+      }
+
+    ).start(event => {
+      //if not collision is detected, restart the enemy animation
+      if(event.finished && this.state.gameOver == false) {
+        clearInterval(refreshIntervalId);
+        this.setState({ points: ++ this.state.points });
+        this.animateEnemy2();
       }
     });
   }
@@ -206,23 +283,25 @@ const styles = StyleSheet.create({
   
     controls: {
       alignItems: 'center',
+      justifyContent:'center',
       flexDirection: 'row',
+      bottom:10,
   },
     right: {
         flex:1,
         color:'#fff',
         margin: 0,
-        fontSize: 60,
+        fontSize: 50,
         fontWeight: 'bold',
-        textAlign:'left',
+        textAlign:'right',
     },
 
     left: {
       flex:1,
       color:'#fff',
-      fontSize: 60,
+      fontSize: 50,
       fontWeight: 'bold',
-      textAlign:'right',
+      textAlign:'left',
     }
 
 });
