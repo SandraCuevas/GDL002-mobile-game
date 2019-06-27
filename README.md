@@ -21,6 +21,7 @@ JavaScript y React para componer nuestra interfaz.
 
 Algunos recordaran el aquel juego de los 90s en el que teniamos que esquivar carritos para que nuestro propio carro no chocara con otros carritos. 
 Me he inspirado en aquel juego para construir una mesa con fruta en la que una mosquita debe de esquivar los matamoscas para no perder la vida.
+
 ![screenshot from portada](https://i.postimg.cc/NjChgMrq/Captura-de-pantalla-2019-06-27-a-la-s-10-30-48.png)
 [![screenshot from game](https://i.postimg.cc/fb169rK8/Captura-de-pantalla-2019-06-27-a-la-s-10-31-43.png)](https://postimg.cc/nsYR8TNm)
 
@@ -31,7 +32,7 @@ Para poder jugar FLY AWAY en tu dispositivo movil (solo android) tendrás que in
 de Expo (disponible en [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent)
 y [Apple App Store](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8)).
 
-Una vez que hayas descargado la aplicación deberás escanear el siguiente QR para jugar en tu dispositvo movil android.
+Una vez que hayas descargado la aplicación deberás escanear el siguiente QR para jugar en tu dispositvo movil android. Tambien puedes vistar la página en [EXPO](https://expo.io/@sandracuevas/fly-away) donde se encuetra publicado el juego.
 
 ![screenshot from QR](https://i.postimg.cc/5tXhjVwH/Captura-de-pantalla-2019-06-27-a-la-s-10-32-33.png)
 
