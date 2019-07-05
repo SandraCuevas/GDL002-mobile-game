@@ -134,7 +134,7 @@ static navigationOptions = {
       'Game Over',
       'Go BACK to try Again',
       [
-        {text: 'try again', onPress: () => { router.navigate("Game")}},
+        {text: 'try again', onPress: () => { router.navigate("Home")}},
         {text: 'Out', onPress: () => {router.navigate("Home")}},
       ]
     )    
