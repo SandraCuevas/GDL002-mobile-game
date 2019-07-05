@@ -19,7 +19,7 @@ static navigationOptions = {
   constructor (props){
     super(props);
     this.state = {
-      movePlayerVal: new Animated.Value(-100),
+      movePlayerVal: new Animated.Value(0),
       playerSide: 'left',
       points: 0,
 
@@ -134,8 +134,8 @@ static navigationOptions = {
       'Game Over',
       'Go BACK to try Again',
       [
-        {text: 'try again', onPress: () => {() => router.navigate("Home")}},
-        {text: 'Out', onPress: () => {() => router.navigate("Home")}},
+        {text: 'try again', onPress: () => { router.navigate("Game")}},
+        {text: 'Out', onPress: () => {router.navigate("Home")}},
       ]
     )    
   }
